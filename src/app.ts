@@ -70,6 +70,7 @@ export class App{
         // delete http://localhost:3000/public/categories/:categoryId
 
         // get    http://localhost:3000/public/categories/:categoryId/products/
+        // post   http://localhost:3000/public/categories/:categoryId/products/
 
 
         // get    http://localhost:3000/admin/orders/inprocess

@@ -13,7 +13,11 @@ import {
     createCategories, 
     updateCategory,
     deleteCategory } from '../../controllers/categories.controllers';
-import { getProducts } from '../../controllers/products.controller';
+import { 
+    getProducts, 
+    createProduct, 
+    deleteProduct, 
+    updateProduct } from '../../controllers/products.controller';
 import { 
     getOrdersInProcess, 
     getOrdersInkitchen, 
@@ -37,10 +41,26 @@ router.route('/categories/:categoryId')
     ], verifyToken, adminValidate, validateReq, updateCategory)
     .delete( verifyToken, adminValidate, deleteCategory );
 
-
+    // Product
 router.route('/categories/:categoryId/products')
-    .get( verifyToken, adminValidate, getProducts );
+    .get( verifyToken, adminValidate, getProducts )
+    .post([
+        body('_id').optional().not().exists().withMessage('Invalid request'),
+        body('name').isLength({ min: 2 }).withMessage('You must indicate a name'),
+        body('price').isNumeric().withMessage('You must indicate a valid price'),
+        body('status').optional().not().exists().withMessage('Invalid request'),
+        body('category_id').optional().not().exists().withMessage('Invalid request')
+    ], verifyToken, adminValidate, validateReq, createProduct);
 
+router.route('/categories/:categoryId/products/:productId')
+    .delete( verifyToken, adminValidate, validateReq, deleteProduct )
+    .put([
+        body('_id').optional().not().exists().withMessage('Invalid request'),
+        body('name').optional().isLength({ min: 2 }).withMessage('You must indicate a name'),
+        body('price').optional().isNumeric().withMessage('You must indicate a valid price'),
+        body('status').optional().isIn(['true', 'false']).withMessage('You must indicate a valid status'),
+        body('category_id').optional().not().exists().withMessage('Invalid request')
+    ], verifyToken, adminValidate, validateReq, updateProduct);
 
     // Order
 router.route('/orders/inprocess')
