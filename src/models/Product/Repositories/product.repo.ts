@@ -8,6 +8,14 @@ export async function findAllProducts( id: string ){
 
 }
 
+export async function findAllPublicProducts( id: string ){
+    
+    const products = await Product.find({ category_id: id, status: true });
+
+    return products;
+
+}
+
 export async function findAProduct( id: string ){
     
     const product = await Product.findOne({ _id: id });

@@ -8,7 +8,8 @@ import {
     findAProductByName,
     findAProductByIdAndCategoryId,
     deleteAProductById,
-    updateAProduct } from '../models/Product/Repositories/product.repo';
+    updateAProduct,
+    findAllPublicProducts } from '../models/Product/Repositories/product.repo';
 
 // Interface
 import { IProduct } from '../models/Product/Entities/product.model';
@@ -18,6 +19,15 @@ export async function getProducts( req: Request, res: Response ){
 
     // Models
     const products = await findAllProducts(id);
+
+    return res.json(products);
+}
+
+export async function getPublicProducts( req: Request, res: Response ){
+    const id = req.params.categoryId;
+
+    // Models
+    const products = await findAllPublicProducts(id);
 
     return res.json(products);
 }
