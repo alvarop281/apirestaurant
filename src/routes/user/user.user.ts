@@ -8,7 +8,7 @@ import { validateReq } from '../../middleware/validateReq';
 import { userValidate } from '../../middleware/userValidate';
 
 // Controller
-import { updateUser } from '../../controllers/user.controller';
+import { updateUser, updateAddressUser } from '../../controllers/user.controller';
 
 router.route('/user')
     .put([
@@ -21,4 +21,9 @@ router.route('/user')
         body('phone_number').optional().isLength({ min: 3 }).withMessage('You must indicate you real phone')
     ], verifyToken, userValidate, validateReq, updateUser);
 
+router.route('/user/address')
+    .post([
+        body('reference').isLength({ min: 3 }).withMessage('You must indicate a reference'),
+        body('address').isLength({ min: 3 }).withMessage('You must indicate a address'),
+    ], verifyToken, userValidate, validateReq, updateAddressUser);
 export default router;

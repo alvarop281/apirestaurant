@@ -1,5 +1,10 @@
 import { Schema, model, Document } from 'mongoose';
 
+export interface IAddress {
+    reference: string,
+    address: string
+}
+
 export interface IUser extends Document {
     _id?: number,
     email: string,
@@ -9,10 +14,7 @@ export interface IUser extends Document {
     phone_number?: string,
     type_of_user?: string,
     full_address?: [
-        {
-            reference: string,
-            address: string
-        }
+        IAddress
     ]
 }
 
