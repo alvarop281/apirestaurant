@@ -42,9 +42,17 @@ export async function updateAOrder( order: IOrder, orderId: string, userId: stri
     return orderUpdated;
 }
 
-export async function findOrderByUserIdAndOrderId( userId: string, orderId: string ){
+export async function findActiveOrderByUserOrder( userId: string, orderId: string ){
     
     const order = await Order.findOne({ user_id: userId, _id: orderId,  status: 'active' });
+
+    return order;
+
+}
+
+export async function findOrderByUserOrder( userId: string, orderId: string ){
+    
+    const order = await Order.findOne({ user_id: userId, _id: orderId });
 
     return order;
 

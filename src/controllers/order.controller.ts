@@ -8,8 +8,7 @@ import {
     findUserOrder, 
     createAnOrder, 
     findAllUserOrders,
-    updateAOrder,
-    findOrderByUserIdAndOrderId
+    updateAOrder
         } from '../models/Order/Ropositories/order.repo';
 
 export async function createOrder( req: Request, res: Response ){
@@ -42,10 +41,6 @@ export async function updateOrder( req: Request, res: Response ){
     const userId = req.userId;
     const orderId = req.params.orderId;
     const updateOrder: IOrder = req.body;
-
-    // Validate Order
-    const oldOrder = await findOrderByUserIdAndOrderId(userId, orderId);
-    if( !oldOrder ) return res.status(404).json({ errors: "Order not found!" });
 
     // Save and store image
     if(req.files){

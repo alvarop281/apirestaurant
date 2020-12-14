@@ -8,3 +8,11 @@ export async function findAllProducts( id: string ){
     return products;
 
 }
+
+export async function findAProduct( id: string ){
+    
+    const product = await Product.findOne({ _id: id });
+
+    return product;
+
+}
