@@ -8,7 +8,12 @@ export interface IUser extends Document {
     dni: string,
     phone_number?: string,
     type_of_user?: string,
-    full_address?: []
+    full_address?: [
+        {
+            reference: string,
+            address: string
+        }
+    ]
 }
 
 const userSchema = new Schema({
@@ -42,7 +47,16 @@ const userSchema = new Schema({
         type: String,
         default: 'buyer'
     },
-    full_address: []
+    full_address: [
+        {
+            reference: {
+                type: String
+            },
+            address: {
+                type: String
+            }
+        }
+    ]
 });
 
 export default model<IUser>('User', userSchema)

@@ -5,7 +5,8 @@ import upload from 'express-fileupload';
 // Routes
 import AuthRoute from './routes/auth/auth';
 import PublicRoute from './routes/public/public.categories';
-import UserRouter from './routes/user/user.orders';
+import OrderRouter from './routes/user/user.orders';
+import UserRouter from './routes/user/user.user';
 import AdminRouter from './routes/admin/admin';
 
 export class App{
@@ -50,7 +51,7 @@ export class App{
         // get    http://localhost:3000/public/categories/:categoryId/products/
 
         // User
-        this.app.use('/user', UserRouter);
+        this.app.use('/user', OrderRouter);
         // post   http://localhost:3000/user/orders/
         // get    http://localhost:3000/user/orders/
         // put    http://localhost:3000/user/orders/:orderId
@@ -61,6 +62,9 @@ export class App{
 
         // delete http://localhost:3000/user/orders/:orderId/details:detailId
         // put    http://localhost:3000/user/orders/:orderId/details:detailId
+
+        this.app.use('/user', UserRouter);
+        // put    http://localhost:3000/user/user/
 
         // Admin
         this.app.use('/admin', AdminRouter);
