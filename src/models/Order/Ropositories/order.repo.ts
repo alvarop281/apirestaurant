@@ -57,3 +57,53 @@ export async function findOrderByUserOrder( userId: string, orderId: string ){
     return order;
 
 }
+
+export async function findAllOrderInProcess( ){
+    
+    const orders = await Order.find({ status: 'in process' });
+
+    return orders;
+
+}
+
+export async function findAllOrderInKitchen( ){
+    
+    const orders = await Order.find({ status: 'in kitchen' });
+
+    return orders;
+
+}
+
+export async function findAllOrderToDelivery( ){
+    
+    const orders = await Order.find({ status: 'to delivery' });
+
+    return orders;
+
+}
+
+
+export async function findAllOrderInHouse( ){
+    
+    const orders = await Order.find({ status: 'in house' });
+
+    return orders;
+
+}
+
+export async function findOrderById( orderId: string ){
+    
+    const order = await Order.findOne({ _id: orderId });
+
+    return order;
+
+}
+
+export async function updateStatusAOrder( orderId: string, newStatus: string ){
+    const orderUpdated = await Order.updateOne( 
+        { _id: orderId }, 
+        { $set: { status: newStatus } 
+    } );
+
+    return orderUpdated;
+}

@@ -1,7 +1,7 @@
 import { Schema, model, Document } from 'mongoose';
 
 export interface IOrder extends Document{
-    status?: string,
+    status: string,
     payment_type?: string,
     proof_of_payment?: string,
     delivery_method?: string,

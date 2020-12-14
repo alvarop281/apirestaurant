@@ -8,7 +8,13 @@ import {
     findUserOrder, 
     createAnOrder, 
     findAllUserOrders,
-    updateAOrder
+    updateAOrder,
+    findAllOrderInProcess,
+    findAllOrderInKitchen,
+    findAllOrderToDelivery,
+    findAllOrderInHouse,
+    findOrderById,
+    updateStatusAOrder
         } from '../models/Order/Ropositories/order.repo';
 
 export async function createOrder( req: Request, res: Response ){
@@ -63,6 +69,74 @@ export async function updateOrder( req: Request, res: Response ){
     }
 
     const order = await updateAOrder( updateOrder, orderId, userId );
+
+    return res.json( {
+        message: 'Order Updated'
+    } );
+}
+
+export async function getOrdersInProcess( req: Request, res: Response ) {
+
+    const orders = await findAllOrderInProcess();
+
+    return res.json({ orders });
+
+}
+
+export async function getOrdersInkitchen( req: Request, res: Response ) {
+
+    const orders = await findAllOrderInKitchen();
+
+    return res.json({ orders });
+
+}
+
+export async function getOrdersToDelivery( req: Request, res: Response ) {
+
+    const orders = await findAllOrderToDelivery();
+
+    return res.json({ orders });
+
+}
+
+export async function getOrdersInHouse( req: Request, res: Response ) {
+
+    const orders = await findAllOrderInHouse();
+
+    return res.json({ orders });
+
+}
+
+
+export async function updateStatusOrder( req: Request, res: Response ){
+    // Save request data
+
+    const orderId = req.params.orderId;
+
+    const updateOrder = await findOrderById(orderId);
+    if( !updateOrder ) return res.status(404).json({ errors: "Order not found" });
+
+    if ( updateOrder ){
+        let status: string = updateOrder.status;
+
+        if(status === 'active' || status === 'in house'){
+            return res.status(404).json({ errors: "The order is not ready" });
+        }
+
+        switch(status){
+            case 'to delivery':
+                status = 'in house';
+                break;
+            case 'in kitchen':
+                status = 'to delivery';
+                break;
+            case 'in process':
+                status = 'in kitchen';
+                break;
+        }
+        await updateStatusAOrder(orderId, status);
+    }
+
 
     return res.json( {
         message: 'Order Updated'
