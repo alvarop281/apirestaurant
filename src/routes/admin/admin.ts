@@ -8,7 +8,11 @@ import { adminValidate } from '../../middleware/adminValidate';
 import { validateReq } from '../../middleware/validateReq';
 
 // Controllers
-import { getCategories } from '../../controllers/categories.controllers';
+import { 
+    getCategories, 
+    createCategories, 
+    updateCategory,
+    deleteCategory } from '../../controllers/categories.controllers';
 import { getProducts } from '../../controllers/products.controller';
 import { 
     getOrdersInProcess, 
@@ -18,15 +22,27 @@ import {
     updateStatusOrder } from '../../controllers/order.controller';
 
 
-
+    // Category 
 router.route('/categories')
-    .get( verifyToken, adminValidate, getCategories );
+    .get( verifyToken, adminValidate, getCategories )
+    .post([
+        body('_id').optional().not().exists().withMessage('Invalid request'),
+        body('description').isLength({ min: 2 }).withMessage('You must indicate a description')
+    ], verifyToken, adminValidate, validateReq, createCategories );
+
+router.route('/categories/:categoryId')
+    .put([
+        body('_id').optional().not().exists().withMessage('Invalid request'),
+        body('description').isLength({ min: 2 }).withMessage('You must indicate a description')
+    ], verifyToken, adminValidate, validateReq, updateCategory)
+    .delete( verifyToken, adminValidate, deleteCategory );
 
 
 router.route('/categories/:categoryId/products')
     .get( verifyToken, adminValidate, getProducts );
 
 
+    // Order
 router.route('/orders/inprocess')
     .get( verifyToken, adminValidate, getOrdersInProcess );
 

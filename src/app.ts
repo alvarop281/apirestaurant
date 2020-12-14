@@ -54,6 +54,7 @@ export class App{
         // post   http://localhost:3000/user/orders/
         // get    http://localhost:3000/user/orders/
         // put    http://localhost:3000/user/orders/:orderId
+        // put    http://localhost:3000/user/close/orders/:orderId
 
         // get    http://localhost:3000/user/orders/:orderId/details
         // post   http://localhost:3000/user/orders/:orderId/details
@@ -64,6 +65,10 @@ export class App{
         // Admin
         this.app.use('/admin', AdminRouter);
         // get    http://localhost:3000/public/categories/
+        // post   http://localhost:3000/public/categories/
+        // put    http://localhost:3000/public/categories/:categoryId
+        // delete http://localhost:3000/public/categories/:categoryId
+
         // get    http://localhost:3000/public/categories/:categoryId/products/
 
 
