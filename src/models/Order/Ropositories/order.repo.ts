@@ -50,6 +50,14 @@ export async function findActiveOrderByUserOrder( userId: string, orderId: strin
 
 }
 
+export async function findInHouseOrderByUserOrder( userId: string, orderId: string ){
+    
+    const order = await Order.findOne({ user_id: userId, _id: orderId,  status: 'in house' });
+
+    return order;
+
+}
+
 export async function findOrderByUserOrder( userId: string, orderId: string ){
     
     const order = await Order.findOne({ user_id: userId, _id: orderId });
@@ -104,6 +112,24 @@ export async function updateStatusAOrder( orderId: string, newStatus: string ){
         { _id: orderId }, 
         { $set: { status: newStatus } 
     } );
+
+    return orderUpdated;
+}
+
+export async function updateCloseAOrder( 
+    orderId: string, 
+    userId: string, 
+    newCalification: number, 
+    newStatus: string ){
+
+        const orderUpdated = await Order.findOne({ _id: orderId, user_id: userId });
+
+        if( orderUpdated ){
+            orderUpdated.status = newStatus;
+            orderUpdated.calification = newCalification;
+
+            await orderUpdated.save();
+        }
 
     return orderUpdated;
 }

@@ -14,7 +14,8 @@ import {
     findAllOrderToDelivery,
     findAllOrderInHouse,
     findOrderById,
-    updateStatusAOrder
+    updateStatusAOrder,
+    updateCloseAOrder
         } from '../models/Order/Ropositories/order.repo';
 
 export async function createOrder( req: Request, res: Response ){
@@ -122,6 +123,7 @@ export async function updateStatusOrder( req: Request, res: Response ){
         if(status === 'active' || status === 'in house'){
             return res.status(404).json({ errors: "The order is not ready" });
         }
+        if( status === 'completed' ) return res.status(404).json({ errors: "The order was finalized" });
 
         switch(status){
             case 'to delivery':
@@ -137,6 +139,20 @@ export async function updateStatusOrder( req: Request, res: Response ){
         await updateStatusAOrder(orderId, status);
     }
 
+
+    return res.json( {
+        message: 'Order Updated'
+    } );
+}
+
+export async function updateCalificationOrder( req: Request, res: Response ){
+    // Save request data
+    const userId = req.userId;
+    const orderId = req.params.orderId;
+    const calification = req.body.calification;
+    const status = 'completed';
+
+    await updateCloseAOrder( orderId, userId, calification, status );
 
     return res.json( {
         message: 'Order Updated'
